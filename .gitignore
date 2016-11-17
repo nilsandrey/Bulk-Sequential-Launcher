@@ -3,3 +3,5 @@
 ################################################################################
 
 *.suo
+/Bulk-Sequential-Launcher/bin/Debug
+/Bulk-Sequential-Launcher/obj/Debug
