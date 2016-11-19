@@ -11,7 +11,7 @@ namespace Bulk_Sequential_Launcher.Runners
             if (ExeRunner.SupportedExtensions.Contains(extension))
                 return new ExeRunner();
             // Nothing so far? well, then null.
-            return null;
+            return new ExeRunner();
         }
 
         public static List<string> SupportedExtensions
