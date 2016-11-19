@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using Bulk_Sequential_Launcher.Properties;
+using Bulk_Sequential_Launcher.Runners;
 
 namespace Bulk_Sequential_Launcher
 {
@@ -15,7 +15,7 @@ namespace Bulk_Sequential_Launcher
             InitializeComponent();
         }
 
-        public string CurrentPath
+        private string CurrentPath
         {
             get
             {
@@ -23,7 +23,6 @@ namespace Bulk_Sequential_Launcher
                     tbPath.Text = Application.StartupPath;
                 return tbPath.Text;
             }
-            set { tbPath.Text = value; }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,7 +38,7 @@ namespace Bulk_Sequential_Launcher
                         && File.Exists(processPath))
                     {
                         SetItemInProgress(idx);
-                        var exitOk = ExecuteProcess(processPath);
+                        var exitOk = ExecuteFile(processPath);
                         SetItemFinished(idx, exitOk);
                     }
                 }
@@ -52,26 +51,18 @@ namespace Bulk_Sequential_Launcher
             }
         }
 
-        private bool ExecuteProcess(string processPath)
-        {
-            try
-            {
-                var process = Process.Start(processPath, txParameters.Text);
-                while ((process != null) && !process.HasExited)
-                    process.WaitForExit(100);
-                return (process == null) || (process.ExitCode == 0);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+        private bool ExecuteFile(string processPath)
+        {            
+            var info = new FileInfo(processPath);
+            IFileRunner runner = RunnerFactory.CreateRunnerFor(info.Extension.Substring(1));
+            return runner != null && runner.ExecuteFile(processPath, txParameters.Text);
         }
 
         /// <summary>
         ///     Cambia el texto del elemento para indicar si terminó bien o no.
         /// </summary>
         /// <param name="index">Indica el índice del elemento que terminó su ejecución.</param>
-        /// <param name="exitOk">Indica si tentativamente terminó bien o no según el exitcode.</param>
+        /// <param name="exitOk">Indica si tentativamente terminó bien o no.</param>
         private void SetItemFinished(int index, bool exitOk = true)
         {
             var prefix = exitOk ? Resources.WellFinishedPrefix : Resources.FinishedWithErrorsPrefix;
@@ -103,7 +94,7 @@ namespace Bulk_Sequential_Launcher
                     foreach (var file in files)
                     {
                         var item = checkedListBox1.Items.Add(file);
-                        checkedListBox1.SetItemChecked(item, file.EndsWith("exe"));
+                        checkedListBox1.SetItemChecked(item, IsExtensionSupported(file));
                     }
                 }
                 finally
@@ -111,6 +102,12 @@ namespace Bulk_Sequential_Launcher
                     _refreshing = false;
                     btnGo.Enabled = true;
                 }
+        }
+
+        private static bool IsExtensionSupported(string file)
+        {
+            var extension = new FileInfo(file).Extension.Substring(1);
+            return RunnerFactory.SupportedExtensions.Contains(extension);
         }
 
         private void button2_Click(object sender, EventArgs e)

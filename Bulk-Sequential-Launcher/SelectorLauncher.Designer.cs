@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectorLauncher));
             this.btnGo = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.txParameters = new System.Windows.Forms.TextBox();
@@ -60,7 +61,7 @@
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Location = new System.Drawing.Point(12, 76);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(523, 229);
+            this.checkedListBox1.Size = new System.Drawing.Size(523, 213);
             this.checkedListBox1.TabIndex = 1;
             // 
             // txParameters
@@ -145,6 +146,7 @@
             this.Controls.Add(this.txParameters);
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.btnGo);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SelectorLauncher";
             this.Text = "...";
             this.Load += new System.EventHandler(this.Form1_Load);
