@@ -28,18 +28,61 @@ namespace Bulk_Sequential_Launcher
 
         private void button1_Click(object sender, EventArgs e)
         {
-            foreach (var item in checkedListBox1.CheckedItems)
+            btnGo.Enabled = false;
+            UseWaitCursor = true;
+            try
             {
-                var processPath = item.ToString();
-                if (File.Exists(processPath))
+                for (var idx = 0; idx < checkedListBox1.Items.Count; idx++)
                 {
-                    var process = Process.Start(processPath, txParameters.Text);
-                    while (process != null && !process.HasExited)
-                        process?.WaitForExit(100);
+                    var processPath = checkedListBox1.Items[idx].ToString();
+                    if ((checkedListBox1.GetItemCheckState(idx) == CheckState.Checked)
+                        && File.Exists(processPath))
+                    {
+                        SetItemInProgress(idx);
+                        var exitOk = ExecuteProcess(processPath);
+                        SetItemFinished(idx, exitOk);
+                    }
                 }
+                if (Resources.FinishedCaption != null)
+                    Text = Resources.FinishedCaption;
             }
-            if (Resources.FinishedCaption != null)
-                Text = Resources.FinishedCaption;
+            finally
+            {
+                UseWaitCursor = false;
+            }
+        }
+
+        private bool ExecuteProcess(string processPath)
+        {
+            try
+            {
+                var process = Process.Start(processPath, txParameters.Text);
+                while ((process != null) && !process.HasExited)
+                    process.WaitForExit(100);
+                return (process == null) || (process.ExitCode == 0);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     Cambia el texto del elemento para indicar si terminó bien o no.
+        /// </summary>
+        /// <param name="index">Indica el índice del elemento que terminó su ejecución.</param>
+        /// <param name="exitOk">Indica si tentativamente terminó bien o no según el exitcode.</param>
+        private void SetItemFinished(int index, bool exitOk = true)
+        {
+            var prefix = exitOk ? Resources.WellFinishedPrefix : Resources.FinishedWithErrorsPrefix;
+            var newLine = checkedListBox1.Items[index].ToString().Replace(Resources.InProgressPrefix, prefix);
+            checkedListBox1.Items[index] = newLine;
+            checkedListBox1.SetItemChecked(index, false);
+        }
+
+        private void SetItemInProgress(int idx)
+        {
+            checkedListBox1.Items[idx] = Resources.InProgressPrefix + checkedListBox1.Items[idx];
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -52,7 +95,9 @@ namespace Bulk_Sequential_Launcher
             if (!_refreshing && Directory.Exists(CurrentPath))
                 try
                 {
+                    btnGo.Enabled = false;
                     _refreshing = true;
+                    Text = Resources.InProgressPrefix;
                     checkedListBox1.Items.Clear();
                     var files = Directory.EnumerateFiles(CurrentPath);
                     foreach (var file in files)
@@ -64,6 +109,7 @@ namespace Bulk_Sequential_Launcher
                 finally
                 {
                     _refreshing = false;
+                    btnGo.Enabled = true;
                 }
         }
 
@@ -84,6 +130,11 @@ namespace Bulk_Sequential_Launcher
         }
 
         private void tbPath_TextChanged(object sender, EventArgs e)
+        {
+            RefreshFileList();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
         {
             RefreshFileList();
         }

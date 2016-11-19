@@ -68,5 +68,32 @@ namespace Bulk_Sequential_Launcher.Properties {
                 return ResourceManager.GetString("FinishedCaption", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Error] .
+        /// </summary>
+        internal static string FinishedWithErrorsPrefix {
+            get {
+                return ResourceManager.GetString("FinishedWithErrorsPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        internal static string InProgressPrefix {
+            get {
+                return ResourceManager.GetString("InProgressPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Ok] .
+        /// </summary>
+        internal static string WellFinishedPrefix {
+            get {
+                return ResourceManager.GetString("WellFinishedPrefix", resourceCulture);
+            }
+        }
     }
 }

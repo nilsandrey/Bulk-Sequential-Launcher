@@ -35,6 +35,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.tbPath = new System.Windows.Forms.TextBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // btnGo
@@ -53,6 +55,8 @@
             this.checkedListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedListBox1.CheckOnClick = true;
+            this.checkedListBox1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Location = new System.Drawing.Point(12, 76);
             this.checkedListBox1.Name = "checkedListBox1";
@@ -109,11 +113,31 @@
             this.tbPath.TabIndex = 6;
             this.tbPath.TextChanged += new System.EventHandler(this.tbPath_TextChanged);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(174, 38);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 7;
+            this.btnRefresh.Text = "&Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // checkedListBox2
+            // 
+            this.checkedListBox2.FormattingEnabled = true;
+            this.checkedListBox2.Location = new System.Drawing.Point(522, 76);
+            this.checkedListBox2.Name = "checkedListBox2";
+            this.checkedListBox2.Size = new System.Drawing.Size(8, 4);
+            this.checkedListBox2.TabIndex = 8;
+            // 
             // SelectorLauncher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 346);
+            this.Controls.Add(this.checkedListBox2);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.tbPath);
             this.Controls.Add(this.btnCheckAll);
             this.Controls.Add(this.button2);
@@ -138,6 +162,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnCheckAll;
         private System.Windows.Forms.TextBox tbPath;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.CheckedListBox checkedListBox2;
     }
 }
 
