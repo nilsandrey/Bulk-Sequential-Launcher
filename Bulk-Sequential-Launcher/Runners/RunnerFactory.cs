@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Bulk_Sequential_Launcher.Runners
 {
@@ -10,6 +11,8 @@ namespace Bulk_Sequential_Launcher.Runners
         { 
             if (ExeRunner.SupportedExtensions.Contains(extension))
                 return new ExeRunner();
+            if (CabRunner.SupportedExtensions.Contains(extension))
+                return new CabRunner();
             // Nothing so far? well, then null.
             return new ExeRunner();
         }
@@ -22,6 +25,8 @@ namespace Bulk_Sequential_Launcher.Runners
                 _supportedExtensions = new List<string>();
                 if (ExeRunner.SupportedExtensions != null)
                     _supportedExtensions.AddRange(ExeRunner.SupportedExtensions);
+                if (CabRunner.SupportedExtensions != null)
+                    _supportedExtensions.AddRange(CabRunner.SupportedExtensions);
                 return _supportedExtensions;
             }
         }

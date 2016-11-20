@@ -135,5 +135,10 @@ namespace Bulk_Sequential_Launcher
         {
             RefreshFileList();
         }
+
+        private void tbPath_Enter(object sender, EventArgs e)
+        {
+            tbPath.SelectAll();
+        }
     }
 }

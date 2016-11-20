@@ -113,6 +113,7 @@
             this.tbPath.Size = new System.Drawing.Size(523, 20);
             this.tbPath.TabIndex = 6;
             this.tbPath.TextChanged += new System.EventHandler(this.tbPath_TextChanged);
+            this.tbPath.Enter += new System.EventHandler(this.tbPath_Enter);
             // 
             // btnRefresh
             // 

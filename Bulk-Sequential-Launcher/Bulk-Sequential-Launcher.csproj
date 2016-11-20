@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Runners\CabRunner.cs" />
     <Compile Include="Runners\RunnerFactory.cs" />
     <Compile Include="Runners\ExeRunner.cs" />
     <Compile Include="Runners\IFileRunner.cs" />

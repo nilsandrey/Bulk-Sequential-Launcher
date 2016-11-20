@@ -10,7 +10,7 @@ namespace Bulk_Sequential_Launcher.Runners
 
         List<string> IFileRunner.SupportedExtensions => SupportedExtensions;
 
-        public bool ExecuteFile(string filePath, string parameters)
+        public virtual bool ExecuteFile(string filePath, string parameters)
         {
             try
             {
