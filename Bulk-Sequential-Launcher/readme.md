@@ -1,7 +1,7 @@
 # Inicio
 
-Este es un ejemplo.
+Este es un **ejemplo**.
 
 ## Segunda parte
 
-A veces son mejores.
+A veces *son* mejores.

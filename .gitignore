@@ -6,3 +6,5 @@
 /Bulk-Sequential-Launcher/bin/Debug
 /Bulk-Sequential-Launcher/obj/Debug
 *.TMP
+/Bulk-Sequential-Launcher/bin/Release
+/Bulk-Sequential-Launcher/obj/Release
