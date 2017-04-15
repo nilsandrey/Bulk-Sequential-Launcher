@@ -52,7 +52,7 @@ namespace Bulk_Sequential_Launcher
         }
 
         private bool ExecuteFile(string processPath)
-        {            
+        {
             var info = new FileInfo(processPath);
             IFileRunner runner = RunnerFactory.CreateRunnerFor(info.Extension.Substring(1));
             return runner != null && runner.ExecuteFile(processPath, txParameters.Text);
@@ -81,6 +81,26 @@ namespace Bulk_Sequential_Launcher
             RefreshFileList();
         }
 
+        /// <summary>
+        /// Adds the files on the path defined by <paramref name="currentPath"/> as new items
+        /// on the list <code>checkedListBox1</code>.
+        /// Recursively calls recursively to itself for each subdirectory.
+        /// </summary>
+        /// <param name="currentPath">Path where to look for file names to execute.</param>
+        private void AddFiles2List(string currentPath)
+        {
+            var files = Directory.EnumerateFiles(currentPath);
+            foreach (var file in files)
+            {
+                var item = checkedListBox1.Items.Add(file);
+                checkedListBox1.SetItemChecked(item, IsExtensionSupported(file));
+            }
+            var folders = Directory.EnumerateDirectories(currentPath);
+            foreach (var folder in folders)
+            {
+                AddFiles2List(folder);
+            }
+        } 
         private void RefreshFileList()
         {
             if (!_refreshing && Directory.Exists(CurrentPath))
@@ -90,12 +110,7 @@ namespace Bulk_Sequential_Launcher
                     _refreshing = true;
                     Text = Resources.InProgressPrefix;
                     checkedListBox1.Items.Clear();
-                    var files = Directory.EnumerateFiles(CurrentPath);
-                    foreach (var file in files)
-                    {
-                        var item = checkedListBox1.Items.Add(file);
-                        checkedListBox1.SetItemChecked(item, IsExtensionSupported(file));
-                    }
+                    AddFiles2List(CurrentPath);
                 }
                 finally
                 {
